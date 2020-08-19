@@ -39,6 +39,12 @@
     {% if site.get('CustomLog') != False -%}LogFormat {{ vals.LogFormat }} {{ sitename }}
     CustomLog {{ vals.CustomLog }} {{ sitename }}{% endif %}
 
+    {% if site.get('SSLCertificateFile') %}SSLEngine on
+    SSLCertificateFile {{ site.SSLCertificateFile }}
+    {% if site.get('SSLCertificateKeyFile') %}SSLCertificateKeyFile {{ site.SSLCertificateKeyFile }}{% endif %}
+    {% if site.get('SSLCertificateChainFile') %}SSLCertificateChainFile {{ site.SSLCertificateChainFile }}{% endif %}
+    {% endif %}
+
     {% if site.get('RedirectMatch') %}
     RedirectMatch {{ vals.RedirectSource }} {{ vals.RedirectTarget }}
     {% else %}
