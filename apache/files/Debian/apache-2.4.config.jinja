@@ -87,7 +87,7 @@ PidFile ${APACHE_PID_FILE}
 #
 # Timeout: The number of seconds before receives and sends time out.
 #
-Timeout 300
+Timeout {{ salt['pillar.get']('apache:timeout', '300') }}
 
 #
 # KeepAlive: Whether or not to allow persistent connections (more than
