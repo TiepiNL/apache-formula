@@ -226,24 +226,10 @@ IncludeOptional conf-enabled/*.conf
 # Include the virtual host configurations:
 IncludeOptional sites-enabled/*.conf
 
-
-# ----------------------------------------------------------------------
-# | Deny bad bots and IP addresses                                     |
-# ----------------------------------------------------------------------
-# Custom config to include apache-ultimate-bad-bot-blocker (forked).
-# 
-# (!) should be set after <VirtualHost>s see:
-#     https://httpd.apache.org/docs/2.4/sections.html#merging
-#
-# (1) AND-combine with preceding configuration sections.
-# (2) Include black list.
-
-<Location "/">
-    # (1)  
-    AuthMerging And
-    # (2)
-    IncludeOptional custom.d/globalblacklist.conf
-</Location>
+# Include custom config files, loaded after vhosts:
+{%- for conf in salt['pillar.get']('apache:additional_configs', []) %}
+IncludeOptional {{ log_format }}
+{%- endfor %}
 
 
 # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
