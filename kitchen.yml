@@ -157,7 +157,6 @@ suites:
         base:
           '*':
             - apache
-            - apache.config
       pillars:
         top.sls:
           base:
@@ -174,8 +173,10 @@ suites:
         base:
           '*':
             - apache
-            - apache.mod_security
-            - apache.server_status
+            - apache.config.modules
+            - apache.config.certificates
+            - apache.config.modules.mod_security
+            - apache.config.modules.server_status
       pillars:
         top.sls:
           base:
@@ -186,3 +187,27 @@ suites:
     verifier:
       inspec_tests:
         - path: test/integration/modules
+  - name: arch
+    includes:
+      - arch-base-latest-2019-2-py2
+      - arch-base-latest-2018-3-py2
+      - arch-base-latest-2017-7-py2
+    provisioner:
+      state_top:
+        base:
+          '*':
+            - apache
+            - apache.config.modules
+            - apache.config.certificates
+            - apache.config.modules.mod_security
+            - apache.config.modules.server_status
+      pillars:
+        top.sls:
+          base:
+            '*':
+              - apache
+      pillars_from_files:
+        apache.sls: test/salt/pillar/modules.sls
+    verifier:
+      inspec_tests:
+        - path: test/integration/nomodsecurity
